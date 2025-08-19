@@ -3,10 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "next dev",
+    "build": "next lint --max-warnings=0 && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint --max-warnings=0",
+    "lint:fix": "next lint --fix",
+    "stylelint": "npx stylelint \"**/*.{css,scss}\"",
+    "stylelint:fix": "npx stylelint \"**/*.{css,scss}\" --fix",
+    "prettier": "npx prettier --check \"src/**/*.{js,ts,tsx,css,scss,json,md}\"",
+    "prettier:fix": "npx prettier --write \"src/**/*.{js,ts,tsx,css,scss,json,md}\"",
+    "prepare": "husky"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
@@ -26,6 +32,14 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.7",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "prettier": "^2.8.8",
+    "stylelint": "^14.16.1",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-standard": "^29.0.0",
+    "stylelint-config-tailwindcss": "^1.0.0",
+    "stylelint-prettier": "^2.0.0",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.7",
     "typescript": "^5"

@@ -1,19 +1,17 @@
-'use client'
+'use client';
 
-import {useState} from "react";
-import {Button} from "@/src/shared/ui/button";
-
+import { useState } from 'react';
+import { Button } from '@/src/shared/ui/button';
 
 export default function Home() {
+  const arr = [1, 2, 3, 4,     5];
 
-
-  const [counter, setCounter] = useState(0)
+  const [counter, setCounter] = useState(0);
 
   const onClickHandler = () => {
-    console.log(`log`)
-    setCounter(p => p + 1)
-  }
-
+    console.log(`log`);
+    setCounter((p) => p + 1);
+  };
 
   return (
     <div>
@@ -23,10 +21,6 @@ export default function Home() {
       {/*<div className="bg-blue-500 text-white p-4 rounded">*/}
       {/*  test*/}
       {/*</div>*/}
-
-
-
-
     </div>
   );
 }
