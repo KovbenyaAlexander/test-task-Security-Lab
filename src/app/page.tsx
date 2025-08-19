@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/src/shared/ui/button';
+import { useState } from "react";
+import { Button } from "@/src/shared/ui/button";
 
 export default function Home() {
-  const arr = [1, 2, 3, 4,     5];
+  // const arr = [1, 2, 3, 4, 5];
 
   const [counter, setCounter] = useState(0);
 
