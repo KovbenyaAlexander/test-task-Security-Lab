@@ -1,8 +1,8 @@
 'use client'
 
-import Image from "next/image";
 import {useState} from "react";
-import {Button} from "@/components/ui/button";
+import {Button} from "@/src/shared/ui/button";
+
 
 export default function Home() {
 
