@@ -1,26 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/src/shared/ui/button";
+import { Button } from "@/src/shared/ui";
+import { Modal } from "@/src/shared/ui/modal/modal";
 
 export default function Home() {
-  // const arr = [1, 2, 3, 4, 5];
-
-  const [counter, setCounter] = useState(0);
-
-  const onClickHandler = () => {
-    console.log(`log`);
-    setCounter((p) => p + 1);
-  };
-
   return (
     <div>
-      <h1>{counter}</h1>
-      <Button onClick={onClickHandler}>BUTTON</Button>
-
-      {/*<div className="bg-blue-500 text-white p-4 rounded">*/}
-      {/*  test*/}
-      {/*</div>*/}
+      <Modal
+        openModalBtn={(onClickFn) => (
+          <Button variant={"outline"} onClick={onClickFn}>
+            OPEN MODAL
+          </Button>
+        )}
+      >
+        <h2>header</h2>
+        <p>Content</p>
+        <p>Content</p>
+        <p>Content</p>
+      </Modal>
     </div>
   );
 }
