@@ -18,17 +18,23 @@ export function Field(props: Props) {
 
   const { name, type = "text", placeholder, label, className, ...restProps } = props;
 
-  return (
-    <div>
-      {label && <label htmlFor={name}>{label}</label>}
-      <Input
-        id={name}
-        type={type}
-        placeholder={placeholder}
-        className={className}
-        {...formState.register(name as any)}
-        {...restProps}
-      />
-    </div>
+  const input = (
+    <Input
+      id={name}
+      type={type}
+      placeholder={placeholder}
+      className={className}
+      {...formState.register(name as any)}
+      {...restProps}
+    />
+  );
+
+  return label ? (
+    <>
+      <label htmlFor={name}>{label}</label>
+      {input}
+    </>
+  ) : (
+    input
   );
 }

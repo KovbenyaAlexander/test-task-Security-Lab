@@ -13,8 +13,7 @@ import { z } from "zod";
 
 type FormConfig<T> = {
   initialValues: DefaultValues<T>;
-  // validationSchema: ZodSchema<T>;
-  validationSchema: z.ZodType<T>;
+  validationSchema: z.ZodType<T, any, any>;
   onSubmit: (values: T) => void;
 };
 
@@ -41,7 +40,7 @@ export function useFormFacade<T extends FieldValues>(config: FormConfig<T>): For
     watch,
   } = useReactHookForm<T>({
     defaultValues: config.initialValues,
-    resolver: zodResolver(config.validationSchema as any),
+    resolver: zodResolver(config.validationSchema),
     mode: "onSubmit",
   });
 
@@ -73,7 +72,7 @@ export function useFormFacade<T extends FieldValues>(config: FormConfig<T>): For
   };
 }
 
-export function Form<T extends FieldValues = any>(props: {
+export function Form<T extends FieldValues>(props: {
   children: React.ReactNode;
   formState: FormFacadeReturn<T>;
   className?: string;
@@ -89,7 +88,7 @@ export function Form<T extends FieldValues = any>(props: {
   );
 }
 
-export function useFormContext<T extends FieldValues = any>(): FormFacadeReturn<T> {
+export function useFormContext<T extends FieldValues>(): FormFacadeReturn<T> {
   const context = useContext(FormContext);
   if (!context) {
     throw new Error("useFormContext must be used within a Form component");
