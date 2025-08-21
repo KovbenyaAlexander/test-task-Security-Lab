@@ -5,15 +5,15 @@ import { Button } from "@/src/shared/ui";
 
 type ModalWindowProps = {
   openModalBtn: (onClick: () => void) => React.ReactNode;
-  onCloseCallback?: () => void;
+  onClose?: () => void;
   children?: React.ReactNode;
   preventLeave?: {
     message: string;
-    isDirty: boolean;
+    isDirty?: boolean;
   };
 };
 
-export function Modal({ onCloseCallback, openModalBtn, children, preventLeave }: ModalWindowProps) {
+export function Modal({ onClose, openModalBtn, children, preventLeave }: ModalWindowProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => {
@@ -22,9 +22,10 @@ export function Modal({ onCloseCallback, openModalBtn, children, preventLeave }:
       if (!isLeave) return;
     }
 
-    if (onCloseCallback) {
-      onCloseCallback();
+    if (onClose) {
+      onClose();
     }
+
     setIsModalOpen(false);
   };
 

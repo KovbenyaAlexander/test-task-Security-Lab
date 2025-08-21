@@ -22,8 +22,8 @@ export default function Page() {
     },
     validationSchema: userSchema,
     onSubmit: (data) => {
-      console.log("form fata", data);
       alert(JSON.stringify(data));
+      formState.reset();
     },
   });
 
@@ -32,6 +32,9 @@ export default function Page() {
       preventLeave={{
         message: "unsave changes will be lost",
         isDirty: formState.isDirty,
+      }}
+      onClose={() => {
+        formState.reset();
       }}
       openModalBtn={(onClickFn) => (
         <Button variant={"outline"} onClick={onClickFn}>
