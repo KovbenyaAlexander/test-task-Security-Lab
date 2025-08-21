@@ -7,7 +7,6 @@ import { z } from "zod";
 const userSchema = z.object({
   email: z.string().email("Enter valid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  name: z.string().min(2, "Name must be at least 2 characters"),
 });
 
 type UserFormData = z.infer<typeof userSchema>;
@@ -17,7 +16,6 @@ export default function Page() {
     initialValues: {
       email: "qwe@qwe.qwe",
       password: "",
-      name: "",
     },
     validationSchema: userSchema,
     onSubmit: (data) => {
@@ -32,11 +30,6 @@ export default function Page() {
 
       <Form formState={formState} className={"mt-4"}>
         <div className="space-y-4">
-          <div>
-            <Field name="name" type="text" label="name" placeholder={"name"} />
-            <ErrorMessage name="name" />
-          </div>
-
           <div>
             <Field name="email" type="email" label="Email" placeholder={"email"} />
             <ErrorMessage name="email" />

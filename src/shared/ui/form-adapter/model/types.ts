@@ -1,23 +1,23 @@
-// import {FieldValues, UseFormRegister} from "react-hook-form";
-// import React from "react";
+import React from "react";
+import { UseFormRegister, FieldValues, DefaultValues, UseFormReturn } from "react-hook-form";
+import { z } from "zod";
 
-// interface FormConfig<T extends FieldValues> {
-//   initialValues: T;
-//   validationSchema: any;
-//   onSubmit: (values: T) => void;
-// }
+export type FormConfig<T> = {
+  initialValues: DefaultValues<T>;
+  validationSchema: z.ZodType<T, any, any>;
+  onSubmit: (values: T) => void;
+  mode?: "onSubmit" | "onChange" | "onBlur" | "onTouched" | "all";
+  reValidateMode?: "onChange" | "onBlur" | "onSubmit";
+};
 
-// interface FormState<T extends FieldValues> {
-//   values: T;
-//   errors: Partial<Record<keyof T, string>>;
-//   isSubmitting: boolean;
-//   isValid: boolean;
-// }
-
-// interface FormMethods<T extends FieldValues> {
-//   handleSubmit: (e?: React.FormEvent) => void;
-//   setValue: (field: keyof T, value: any) => void;
-//   setError: (field: keyof T, message: string) => void;
-//   reset: () => void;
-//   register: UseFormRegister<T>;
-// }
+export type FormFacadeReturn<T extends FieldValues> = {
+  errors: Partial<Record<keyof T, string>>;
+  isSubmitting: boolean;
+  isValid: boolean;
+  handleSubmit: (e?: React.FormEvent) => void;
+  setError: (field: keyof T, message: string) => void;
+  reset: () => void;
+  register: UseFormRegister<T>;
+  reactHookForm: UseFormReturn<T>;
+  isDirty: boolean;
+};

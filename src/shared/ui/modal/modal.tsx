@@ -7,12 +7,21 @@ type ModalWindowProps = {
   openModalBtn: (onClick: () => void) => React.ReactNode;
   onCloseCallback?: () => void;
   children?: React.ReactNode;
+  preventLeave?: {
+    message: string;
+    isDirty: boolean;
+  };
 };
 
-export function Modal({ onCloseCallback, openModalBtn, children }: ModalWindowProps) {
+export function Modal({ onCloseCallback, openModalBtn, children, preventLeave }: ModalWindowProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => {
+    if (preventLeave?.isDirty) {
+      const isLeave = confirm(preventLeave.message);
+      if (!isLeave) return;
+    }
+
     if (onCloseCallback) {
       onCloseCallback();
     }
