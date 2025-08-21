@@ -8,6 +8,10 @@ export type FormConfig<T> = {
   onSubmit: (values: T) => void;
   mode?: "onSubmit" | "onChange" | "onBlur" | "onTouched" | "all";
   reValidateMode?: "onChange" | "onBlur" | "onSubmit";
+  multiStep?: {
+    totalSteps: number;
+    currentStep: number;
+  };
 };
 
 export type FormFacadeReturn<T extends FieldValues> = {
@@ -20,4 +24,10 @@ export type FormFacadeReturn<T extends FieldValues> = {
   register: UseFormRegister<T>;
   reactHookForm: UseFormReturn<T>;
   isDirty: boolean;
+  multiStep?: {
+    totalSteps: number;
+    currentStep: number;
+    setNextStep: () => void;
+    setPrevStep: () => void;
+  };
 };

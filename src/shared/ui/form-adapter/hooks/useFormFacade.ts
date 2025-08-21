@@ -1,7 +1,8 @@
 import { FormFacadeReturn, FormConfig } from "../model/types";
 import { useForm as useReactHookForm, FieldValues, Path } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo } from "react";
+
+import { useState } from "react";
 
 export function useFormFacade<T extends FieldValues>(config: FormConfig<T>): FormFacadeReturn<T> {
   const reactHookForm = useReactHookForm<T>({
@@ -18,16 +19,24 @@ export function useFormFacade<T extends FieldValues>(config: FormConfig<T>): For
     reset: rhfReset,
   } = reactHookForm;
 
+  const [currentStep, setCurrentStep] = useState(config.multiStep?.currentStep || 1);
+  const totalSteps = config.multiStep?.totalSteps || 1;
+
+  const setNextStep = () => {
+    setCurrentStep((step) => (step < totalSteps ? step + 1 : step));
+  };
+
+  const setPrevStep = () => {
+    setCurrentStep((step) => (step > 1 ? step - 1 : step));
+  };
+
   const handleSubmitWrapper = rhfHandleSubmit((data: T) => {
     config.onSubmit(data);
   });
 
-  //{[inputName]: errorMessage}
-  const formattedErrors = useMemo(() => {
-    return Object.fromEntries(
-      Object.entries(errors).map(([key, error]) => [key, (error?.message as string) || ""]),
-    ) as Partial<Record<keyof T, string>>;
-  }, [errors]);
+  const formattedErrors = Object.fromEntries(
+    Object.entries(errors).map(([key, error]) => [key, (error?.message as string) || ""]),
+  ) as Partial<Record<keyof T, string>>;
 
   return {
     errors: formattedErrors,
@@ -41,5 +50,11 @@ export function useFormFacade<T extends FieldValues>(config: FormConfig<T>): For
     register,
     reactHookForm,
     isDirty,
+    multiStep: {
+      totalSteps,
+      currentStep,
+      setNextStep,
+      setPrevStep,
+    },
   };
 }

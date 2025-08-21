@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext } from "react";
 import { FieldValues, FormProvider } from "react-hook-form";
-import { useFormLeaveGuard } from "./hooks/useFormLeaveGuard";
 
 import { FormFacadeReturn } from "./model/types";
 
@@ -14,8 +13,6 @@ export function Form<T extends FieldValues>(props: {
   className?: string;
 }) {
   const { children, formState, className } = props;
-
-  useFormLeaveGuard(formState.isDirty);
 
   return (
     <FormContext.Provider value={formState as FormFacadeReturn<any>}>

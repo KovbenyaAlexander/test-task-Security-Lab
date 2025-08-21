@@ -8,6 +8,7 @@ export function Navigation() {
       <Link href={"rfk"}>rfk</Link>
       <Link href={"form"}>form</Link>
       <Link href={"modal"}>modal</Link>
+      <Link href={"multisteps"}>multisteps</Link>
     </div>
   );
 }
