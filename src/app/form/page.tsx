@@ -5,7 +5,7 @@ import { ErrorMessage, Field, Form, SubmitFormButton, useFormFacade } from "@/sr
 import { z } from "zod";
 
 const userSchema = z.object({
-  email: z.string().email("Invalid email format"),
+  email: z.string().email("Enter valid email"),
   password: z.string().min(6, "Password must be at least 6 characters"),
   name: z.string().min(2, "Name must be at least 2 characters"),
 });
@@ -52,19 +52,6 @@ export default function Page() {
           </SubmitFormButton>
         </div>
       </Form>
-
-      <pre className={"mt-4"}>
-        {JSON.stringify(
-          {
-            values: formState.values,
-            errors: formState.errors,
-            isValid: formState.isValid,
-            isSubmitting: formState.isSubmitting,
-          },
-          null,
-          2,
-        )}
-      </pre>
     </div>
   );
 }

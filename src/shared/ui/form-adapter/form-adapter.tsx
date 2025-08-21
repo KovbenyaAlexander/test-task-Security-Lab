@@ -1,12 +1,14 @@
 "use client";
 
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import {
   useForm as useReactHookForm,
   UseFormRegister,
   FieldValues,
   Path,
   DefaultValues,
+  FormProvider,
+  UseFormReturn,
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,10 +17,11 @@ type FormConfig<T> = {
   initialValues: DefaultValues<T>;
   validationSchema: z.ZodType<T, any, any>;
   onSubmit: (values: T) => void;
+  mode?: "onSubmit" | "onChange" | "onBlur" | "onTouched" | "all";
+  reValidateMode?: "onChange" | "onBlur" | "onSubmit";
 };
 
 type FormFacadeReturn<T extends FieldValues> = {
-  values: T;
   errors: Partial<Record<keyof T, string>>;
   isSubmitting: boolean;
   isValid: boolean;
@@ -26,40 +29,38 @@ type FormFacadeReturn<T extends FieldValues> = {
   setError: (field: keyof T, message: string) => void;
   reset: () => void;
   register: UseFormRegister<T>;
+  reactHookForm: UseFormReturn<T>;
 };
 
 const FormContext = createContext<FormFacadeReturn<FieldValues> | null>(null);
 
 export function useFormFacade<T extends FieldValues>(config: FormConfig<T>): FormFacadeReturn<T> {
+  const reactHookForm = useReactHookForm<T>({
+    defaultValues: config.initialValues,
+    resolver: zodResolver(config.validationSchema),
+    mode: "onChange",
+  });
+
   const {
     register,
     handleSubmit: rhfHandleSubmit,
     formState: { errors, isSubmitting, isValid },
     setError: rhfSetError,
     reset: rhfReset,
-    watch,
-  } = useReactHookForm<T>({
-    defaultValues: config.initialValues,
-    resolver: zodResolver(config.validationSchema),
-    mode: "onSubmit",
-  });
-
-  const values = watch();
-
-  const formattedErrors: Partial<Record<keyof T, string>> = {};
-  Object.keys(errors).forEach((key) => {
-    const error = errors[key as keyof typeof errors];
-    if (error?.message && typeof error.message === "string") {
-      formattedErrors[key as keyof T] = error.message;
-    }
-  });
+  } = reactHookForm;
 
   const handleSubmitWrapper = rhfHandleSubmit((data: T) => {
     config.onSubmit(data);
   });
 
+  //{[inputName]: errorMessage}
+  const formattedErrors = useMemo(() => {
+    return Object.fromEntries(
+      Object.entries(errors).map(([key, error]) => [key, (error?.message as string) || ""]),
+    ) as Partial<Record<keyof T, string>>;
+  }, [errors]);
+
   return {
-    values,
     errors: formattedErrors,
     isSubmitting,
     isValid,
@@ -69,6 +70,7 @@ export function useFormFacade<T extends FieldValues>(config: FormConfig<T>): For
     },
     reset: rhfReset,
     register,
+    reactHookForm,
   };
 }
 
@@ -81,9 +83,11 @@ export function Form<T extends FieldValues>(props: {
 
   return (
     <FormContext.Provider value={formState as FormFacadeReturn<any>}>
-      <form onSubmit={formState.handleSubmit} noValidate className={className}>
-        {children}
-      </form>
+      <FormProvider {...formState.reactHookForm}>
+        <form onSubmit={formState.handleSubmit} noValidate className={className}>
+          {children}
+        </form>
+      </FormProvider>
     </FormContext.Provider>
   );
 }
@@ -91,7 +95,7 @@ export function Form<T extends FieldValues>(props: {
 export function useFormContext<T extends FieldValues>(): FormFacadeReturn<T> {
   const context = useContext(FormContext);
   if (!context) {
-    throw new Error("useFormContext must be used within a Form component");
+    throw new Error("Context error");
   }
   return context as FormFacadeReturn<T>;
 }
