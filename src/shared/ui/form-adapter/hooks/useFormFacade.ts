@@ -17,10 +17,11 @@ export function useFormFacade<T extends FieldValues>(config: FormConfig<T>): For
     formState: { errors, isSubmitting, isValid, isDirty },
     setError: rhfSetError,
     reset: rhfReset,
+    trigger,
   } = reactHookForm;
 
-  const [currentStep, setCurrentStep] = useState(config.multiStep?.currentStep || 1);
-  const totalSteps = config.multiStep?.totalSteps || 1;
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = config.multiStepConfig?.totalSteps || 1;
 
   const setNextStep = () => {
     setCurrentStep((step) => (step < totalSteps ? step + 1 : step));
@@ -50,11 +51,13 @@ export function useFormFacade<T extends FieldValues>(config: FormConfig<T>): For
     register,
     reactHookForm,
     isDirty,
-    multiStep: {
+    multiStepConfig: {
       totalSteps,
       currentStep,
       setNextStep,
       setPrevStep,
+      stepsFields: config.multiStepConfig?.stepsFields || {},
     },
+    trigger,
   };
 }

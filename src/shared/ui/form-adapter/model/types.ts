@@ -1,5 +1,11 @@
 import React from "react";
-import { UseFormRegister, FieldValues, DefaultValues, UseFormReturn } from "react-hook-form";
+import {
+  UseFormRegister,
+  FieldValues,
+  DefaultValues,
+  UseFormReturn,
+  UseFormTrigger,
+} from "react-hook-form";
 import { z } from "zod";
 
 export type FormConfig<T> = {
@@ -8,9 +14,9 @@ export type FormConfig<T> = {
   onSubmit: (values: T) => void;
   mode?: "onSubmit" | "onChange" | "onBlur" | "onTouched" | "all";
   reValidateMode?: "onChange" | "onBlur" | "onSubmit";
-  multiStep?: {
+  multiStepConfig?: {
     totalSteps: number;
-    currentStep: number;
+    stepsFields: Record<number, string[]>;
   };
 };
 
@@ -24,10 +30,12 @@ export type FormFacadeReturn<T extends FieldValues> = {
   register: UseFormRegister<T>;
   reactHookForm: UseFormReturn<T>;
   isDirty: boolean;
-  multiStep?: {
+  multiStepConfig?: {
     totalSteps: number;
     currentStep: number;
     setNextStep: () => void;
     setPrevStep: () => void;
+    stepsFields: Record<number, string[]>;
   };
+  trigger: UseFormTrigger<T>;
 };

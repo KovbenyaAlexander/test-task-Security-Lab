@@ -9,6 +9,8 @@ import { MultistepPagination } from "@/src/shared/ui/form-adapter/ui/multistepPa
 const userSchema = z.object({
   email: z.string().email("Enter valid email"),
   name: z.string().min(2, "Name must be at least 2 characters"),
+  address: z.string().min(2, "Address must be at least 2 characters"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 type UserFormData = z.infer<typeof userSchema>;
@@ -18,10 +20,16 @@ export default function Page() {
     initialValues: {
       email: "",
       name: "",
+      address: "",
+      password: "",
     },
-    multiStep: {
+    multiStepConfig: {
       totalSteps: 2,
       currentStep: 1,
+      stepsFields: {
+        1: ["email", "address"],
+        2: ["name", "password"],
+      },
     },
     validationSchema: userSchema,
     onSubmit: (data) => {
@@ -41,6 +49,11 @@ export default function Page() {
               <Field name="email" type="email" label="Email" placeholder="email" />
               <ErrorMessage name="email" />
             </div>
+
+            <div>
+              <Field name="address" type="text" label="Address" placeholder="address" />
+              <ErrorMessage name="address" />
+            </div>
           </Step>
 
           <Step step={2}>
@@ -48,12 +61,22 @@ export default function Page() {
               <Field name="name" type="text" label="Name" placeholder="name" />
               <ErrorMessage name="name" />
             </div>
+
+            <div>
+              <Field name="password" type="password" label="Password" placeholder="password" />
+              <ErrorMessage name="password" />
+            </div>
           </Step>
 
           <MultistepPagination
             nextStepBtn={(onClick, disabled) => (
-              <Button onClick={onClick} type="button" disabled={disabled}>
+              <Button onClick={onClick} type="button" disabled={disabled} key="next">
                 Next
+              </Button>
+            )}
+            prevStepBtn={(onClick, disabled) => (
+              <Button onClick={onClick} type="button" disabled={disabled} key="prev">
+                Prev
               </Button>
             )}
           />

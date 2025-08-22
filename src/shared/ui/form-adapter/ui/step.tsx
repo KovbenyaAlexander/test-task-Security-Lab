@@ -8,6 +8,7 @@ interface StepProps {
 }
 
 export const Step: React.FC<StepProps> = ({ children, step }) => {
-  const { multiStep } = useFormContext();
-  return multiStep?.currentStep === step ? <>{children}</> : null;
+  const { multiStepConfig } = useFormContext();
+
+  return multiStepConfig?.currentStep === step ? <>{children}</> : null;
 };
