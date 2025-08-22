@@ -8,10 +8,10 @@ import {
 } from "react-hook-form";
 import { z } from "zod";
 
-export type FormConfig<T> = {
+export type FormConfigType<T> = {
   initialValues: DefaultValues<T>;
-  validationSchema: z.ZodType<T, any, any>;
-  onSubmit: (values: T) => void;
+  validationSchema?: z.ZodType<T, any, any>;
+  onSubmit?: (values: T) => void;
   mode?: "onSubmit" | "onChange" | "onBlur" | "onTouched" | "all";
   reValidateMode?: "onChange" | "onBlur" | "onSubmit";
   multiStepConfig?: {

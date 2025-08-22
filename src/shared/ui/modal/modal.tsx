@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Button } from "@/src/shared/ui";
+import React, { createContext, useContext, useMemo, useState } from "react";
+import { Button } from "@/src/shared/ui/button/button";
 
 type ModalWindowProps = {
   openModalBtn: (onClick: () => void) => React.ReactNode;
@@ -13,11 +13,25 @@ type ModalWindowProps = {
   };
 };
 
+type ModalDirtyContextValue = {
+  isDirty: boolean;
+  setIsDirty: (v: boolean) => void;
+};
+
+const ModalDirtyContext = createContext<ModalDirtyContextValue | null>(null);
+
+export const useModalDirty = () => useContext(ModalDirtyContext);
+
 export function Modal({ onClose, openModalBtn, children, preventLeave }: ModalWindowProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+
+  console.log(`MODAL RERENDER`);
 
   const closeModal = () => {
-    if (preventLeave?.isDirty) {
+    const dirty = preventLeave?.isDirty ?? isDirty;
+
+    if (preventLeave?.message && dirty) {
       const isLeave = confirm(preventLeave.message);
       if (!isLeave) return;
     }
@@ -30,8 +44,11 @@ export function Modal({ onClose, openModalBtn, children, preventLeave }: ModalWi
   };
 
   const openModal = () => {
+    setIsDirty(false);
     setIsModalOpen(true);
   };
+
+  const ctxValue = useMemo<ModalDirtyContextValue>(() => ({ isDirty, setIsDirty }), [isDirty]);
 
   return (
     <div>
@@ -46,7 +63,7 @@ export function Modal({ onClose, openModalBtn, children, preventLeave }: ModalWi
             className="bg-white p-6 rounded-xl shadow-xl relative w-[90%] max-w-4xl max-h-[90vh] overflow-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {children}
+            <ModalDirtyContext.Provider value={ctxValue}>{children}</ModalDirtyContext.Provider>
             <Button onClick={closeModal} className="absolute top-4 right-4">
               CLOSE
             </Button>

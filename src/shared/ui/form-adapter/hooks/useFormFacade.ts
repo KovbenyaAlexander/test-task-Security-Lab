@@ -1,13 +1,16 @@
-import { FormFacadeReturn, FormConfig } from "../model/types";
+import { FormFacadeReturn, FormConfigType } from "../model/types";
 import { useForm as useReactHookForm, FieldValues, Path } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useState } from "react";
+import z from "zod";
 
-export function useFormFacade<T extends FieldValues>(config: FormConfig<T>): FormFacadeReturn<T> {
+export function useFormFacade<T extends FieldValues>(
+  config: FormConfigType<T>,
+): FormFacadeReturn<T> {
   const reactHookForm = useReactHookForm<T>({
     defaultValues: config.initialValues,
-    resolver: zodResolver(config.validationSchema),
+    resolver: zodResolver(config.validationSchema || z.object({})),
     mode: "onChange",
   });
 
@@ -32,7 +35,8 @@ export function useFormFacade<T extends FieldValues>(config: FormConfig<T>): For
   };
 
   const handleSubmitWrapper = rhfHandleSubmit((data: T) => {
-    config.onSubmit(data);
+    if (!config.onSubmit) return;
+    config.onSubmit(data as T);
   });
 
   const formattedErrors = Object.fromEntries(

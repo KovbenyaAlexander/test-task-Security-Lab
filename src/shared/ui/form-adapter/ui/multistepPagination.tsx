@@ -26,7 +26,7 @@ export const MultistepPagination: React.FC<multistepPaginationProps> = ({
 
   return (
     <>
-      {prevStepBtn && prevStepBtn(prevStepHandler, !isDirty || Object.keys(errors).length > 0)}
+      {prevStepBtn && prevStepBtn(prevStepHandler, currentStep === 1)}
 
       {currentStep < totalSteps ? (
         nextStepBtn(nextStepHandler, !isDirty || Object.keys(errors).length > 0)
