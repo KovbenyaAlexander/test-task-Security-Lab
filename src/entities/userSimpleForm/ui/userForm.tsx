@@ -1,9 +1,11 @@
 "use client";
 
 import React from "react";
-import { Button, ErrorMessage, Field, Form, useFormFacade } from "@/src/shared/ui";
+
 import { userFormConfig } from "../config/formConfig";
 import { UserSimpleFormData } from "../model/types";
+import { ErrorMessage, Field, Form, useFormFacade } from "@/src/shared/ui/form-adapter";
+import { Button } from "@/src/shared/ui/button";
 
 export function UserSimpleForm({ onSubmit }: { onSubmit: (data: UserSimpleFormData) => void }) {
   const formState = useFormFacade<UserSimpleFormData>({ ...userFormConfig, onSubmit });

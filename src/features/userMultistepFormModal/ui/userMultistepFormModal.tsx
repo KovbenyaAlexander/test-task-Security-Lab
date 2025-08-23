@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/src/shared/ui";
-import { Modal } from "@/src/shared/ui/modal/modal";
+import { Button } from "@/src/shared/ui/button";
+import { Modal } from "@/src/shared/ui/modal/ui/modal";
 import { UserMultistepForm } from "@/src/entities/userMultistepForm";
 import { UserMultistepFormData } from "@/src/entities/userMultistepForm/model/types";
 
@@ -13,6 +13,7 @@ export function UserMultistepFormModal() {
   return (
     <div className="flex gap-2">
       <Modal
+        title="User Multistep Form"
         openModalBtn={(onClickFn) => (
           <Button variant={"outline"} onClick={onClickFn}>
             OPEN MULTI-STEP FORM

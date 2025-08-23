@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
-import { Button, ErrorMessage, Field, Form, useFormFacade } from "@/src/shared/ui";
+
 import { Step } from "@/src/shared/ui/form-adapter/ui/step";
 import { MultistepPagination } from "@/src/shared/ui/form-adapter/ui/multistepPagination";
 import { userFormConfig } from "../config/formConfig";
 import { UserMultistepFormData } from "../model/types";
+import { ErrorMessage, Field, Form, useFormFacade } from "@/src/shared/ui/form-adapter";
+import { Button } from "@/src/shared/ui/button";
 
 export function UserMultistepForm({
   onSubmit,

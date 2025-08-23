@@ -3,7 +3,6 @@ import * as React from "react";
 import { cn } from "@/src/shared/lib/utils";
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
-  console.log(`rerender`);
   return (
     <input
       type={type}

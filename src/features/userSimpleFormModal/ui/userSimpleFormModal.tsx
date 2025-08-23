@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/src/shared/ui";
-import { Modal } from "@/src/shared/ui/modal/modal";
+import { Button } from "@/src/shared/ui/button";
+import { Modal } from "@/src/shared/ui/modal/ui/modal";
 import { UserSimpleForm } from "@/src/entities/userSimpleForm";
 import { UserSimpleFormData } from "@/src/entities/userSimpleForm/model/types";
 
@@ -13,6 +13,7 @@ export function UserSimpleFormModal() {
   return (
     <div className="flex gap-2">
       <Modal
+        title="User Simple Form"
         openModalBtn={(onClickFn) => (
           <Button variant={"outline"} onClick={onClickFn}>
             OPEN SIMPLE FORM

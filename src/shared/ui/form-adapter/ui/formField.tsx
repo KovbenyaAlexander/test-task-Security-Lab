@@ -1,8 +1,8 @@
 "use client";
 
-import { Input } from "@/src/shared/ui";
+import { Input } from "@/src/shared/ui/input";
 import React from "react";
-import { useFormContext } from "@/src/shared/ui/form-adapter/form-adapter";
+import { useFormContext } from "@/src/shared/ui/form-adapter/lib/formContext";
 
 type Props = {
   name: string;

@@ -1,6 +1,7 @@
 "use client";
-import { useFormContext } from "../form-adapter";
-import { Button } from "@/src/shared/ui";
+
+import { Button } from "@/src/shared/ui/button";
+import { useFormContext } from "../lib/formContext";
 interface multistepPaginationProps {
   children?: React.ReactNode;
   nextStepBtn: (onClick: () => void, disabled: boolean) => React.ReactNode;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormContext } from "../form-adapter";
+import { useFormContext } from "../lib/formContext";
 
 interface StepProps {
   children: React.ReactNode;
