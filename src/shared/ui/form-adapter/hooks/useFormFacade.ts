@@ -3,14 +3,13 @@ import { useForm as useReactHookForm, FieldValues, Path } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useState } from "react";
-import z from "zod";
 
 export function useFormFacade<T extends FieldValues>(
   config: FormConfigType<T>,
 ): FormFacadeReturn<T> {
   const reactHookForm = useReactHookForm<T>({
     defaultValues: config.initialValues,
-    resolver: zodResolver(config.validationSchema || z.object({})),
+    resolver: config.validationSchema ? zodResolver(config.validationSchema) : undefined,
     mode: "onChange",
   });
 
