@@ -1,5 +1,9 @@
 # Security Lab — Test Task
 
+> The task description is contained in the file task-description.md
+
+> Deploy link - https://test-task-security-lab.vercel.app/
+
 #### Quick example
 
 ```tsx
@@ -61,7 +65,6 @@ const config: FormConfigType<UserMultistepFormData> = {
 
 ---
 
-
 - Reusable Modal component
   - All logic for managing the modal window is encapsulated in the Modal component.
   - Prevent-leave guard: warns about unsaved changes before closing.
@@ -90,5 +93,3 @@ Run locally
 - Install: npm install
 - Dev server: npm run dev
 - Open: http://localhost:3000
-
-Deploy link - https://test-task-security-lab.vercel.app/
