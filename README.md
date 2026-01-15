@@ -1,6 +1,6 @@
 # Security Lab — Test Task
 
-> The task description is contained in the file task-description.md
+> Task description - https://github.com/KovbenyaAlexander/test-task-Security-Lab/blob/main/task-description.md
 
 > Deploy link - https://test-task-security-lab.vercel.app/
 
